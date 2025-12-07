@@ -24,29 +24,112 @@
             max-width: 400px;
             width: 100%;
             position: relative;
-            min-height: 500px;
+            min-height: 550px; /* 稍微加高以容納進度條 */
             display: flex;
             flex-direction: column;
         }
+        
+        /* --- 進度條樣式 (新功能) --- */
+        .progress-container {
+            display: none; /* 預設隱藏，歡迎頁不顯示 */
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        .progress-line-bg {
+            position: absolute;
+            top: 15px;
+            left: 35px;
+            right: 35px;
+            height: 3px;
+            background-color: #eee;
+            z-index: 0;
+        }
+        .progress-line-fill {
+            position: absolute;
+            top: 15px;
+            left: 35px;
+            height: 3px;
+            background-color: #d67d7d;
+            z-index: 0;
+            width: 0%; /* 動態控制 */
+            transition: width 0.4s ease;
+        }
+        .step-circle-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #eee;
+            color: #999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.4s;
+        }
+        .step-circle.active {
+            background-color: #d67d7d;
+            color: white;
+            box-shadow: 0 0 0 4px #fdf2f5; /* 外光暈效果 */
+        }
+        .step-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+        }
+        .step-circle.active + .step-label {
+            color: #d67d7d;
+            font-weight: bold;
+        }
+
+        /* --- 一般樣式 --- */
         h2 {
             color: #d67d7d;
             text-align: center;
             margin-bottom: 20px;
             font-size: 22px;
         }
+        .welcome-title {
+            font-size: 26px;
+            color: #d67d7d;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+        
         .step {
             display: none;
-            flex-grow: 1; /* 讓內容撐開 */
+            flex-grow: 1;
+            flex-direction: column;
         }
         .step.active {
-            display: block;
+            display: flex;
             animation: fadeIn 0.5s;
         }
+        
+        #welcome-screen {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
             color: #555;
             font-weight: bold;
+            text-align: left;
+            width: 100%;
         }
         input, select {
             width: 100%;
@@ -58,11 +141,12 @@
             font-size: 16px;
         }
         
-        /* --- 按鈕樣式 --- */
+        /* 按鈕與其他元件保持原樣 */
         .btn-group {
             display: flex;
             gap: 10px;
             margin-top: 10px;
+            width: 100%;
         }
         .btn-group button {
             flex: 1;
@@ -79,7 +163,7 @@
             padding: 14px;
             background-color: #d67d7d;
             color: white;
-            font-size: 16px;
+            font-size: 18px;
             margin-bottom: 10px;
             box-shadow: 0 4px 10px rgba(214, 125, 125, 0.2);
         }
@@ -115,12 +199,12 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            justify-content: center;
         }
         button.copy-btn:hover {
             background: #f9f9f9;
             color: #555;
         }
-        /* LINE 按鈕專用樣式 */
         button.line-btn {
             width: 100%;
             padding: 14px;
@@ -135,11 +219,11 @@
             background-color: #05b34c;
         }
 
-        /* --- 喜好選擇按鈕 --- */
         .pref-container {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            width: 100%;
         }
         .pref-btn {
             flex: 1;
@@ -159,14 +243,13 @@
             font-weight: bold;
         }
 
-        /* --- 導購選單佈局 --- */
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 兩列 */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 15px;
+            width: 100%;
         }
-        /* 讓最後一個 "棉花糖" 或是 "身形" 橫跨整個寬度，如果需要的話，但這裡我們用5個 */
         .menu-item {
             padding: 15px 5px;
             background: #fff8f8;
@@ -194,7 +277,6 @@
             margin-bottom: 5px;
         }
 
-        /* --- 結果與提示 --- */
         .info-box {
             background-color: #fff8f8;
             border-left: 4px solid #d67d7d;
@@ -203,6 +285,9 @@
             font-size: 13px;
             color: #666;
             line-height: 1.6;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
         }
         .care-box {
             background-color: #f4f4f4;
@@ -214,6 +299,18 @@
             margin-top: 15px;
             margin-bottom: 15px;
             line-height: 1.5;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .welcome-note {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.6;
+            margin-top: 30px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
         }
         .result-box {
             text-align: center;
@@ -223,6 +320,8 @@
             margin-top: 0;
             margin-bottom: 15px;
             position: relative;
+            width: 100%;
+            box-sizing: border-box;
         }
         .result-size {
             font-size: 48px;
@@ -247,12 +346,13 @@
             text-align: center;
         }
         .footer-note {
-            margin-top: auto; /* 推到底部 */
+            margin-top: auto;
             padding-top: 20px;
             text-align: center;
             font-size: 12px;
             color: #aaa;
             border-top: 1px solid #eee;
+            width: 100%;
         }
 
         @keyframes fadeIn {
@@ -260,7 +360,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Toast Notification */
         #toast {
             visibility: hidden;
             min-width: 200px;
@@ -293,9 +392,45 @@
 <body>
 
 <div class="container">
-    <h2 id="mainTitle">內褲尺寸小幫手</h2>
+    
+    <div class="progress-container" id="progressBar">
+        <div class="progress-line-bg"></div>
+        <div class="progress-line-fill" id="progressLine"></div>
+        
+        <div class="step-circle-wrapper">
+            <div class="step-circle" id="circle1">1</div>
+            <div class="step-label">基本資料</div>
+        </div>
+        <div class="step-circle-wrapper">
+            <div class="step-circle" id="circle2">2</div>
+            <div class="step-label">身形測量</div>
+        </div>
+        <div class="step-circle-wrapper">
+            <div class="step-circle" id="circle3">3</div>
+            <div class="step-label">建議尺寸</div>
+        </div>
+    </div>
 
-    <div id="step1" class="step active">
+    <div id="welcome-screen" class="step active">
+        <div class="welcome-title">
+            歡迎使用<br>
+            <b>法朵內褲尺寸測量攻略</b>
+        </div>
+        
+        <div style="font-size: 60px; margin-bottom: 20px;">📏</div>
+
+        <button class="primary-btn" onclick="startApp()">開始測量</button>
+
+        <div class="welcome-note">
+            💡 <strong>小提示：</strong><br>
+            每個人身高體重和商品尺寸不盡相同。<br>
+            例如：身高150cm豐腴與175cm瘦高的女孩，有可能選擇同樣尺寸的商品。<br>
+            此測量結果僅供參考。
+        </div>
+    </div>
+
+    <div id="step1" class="step">
+        <h2 id="mainTitle">輸入基本資料</h2>
         <label>您的身高 (cm)</label>
         <input type="number" id="height" placeholder="例如：160">
         
@@ -306,6 +441,7 @@
     </div>
 
     <div id="step2" class="step">
+        <h2 id="mainTitle">身形與偏好</h2>
         <div class="info-box">
             <strong>💡 臀圍測量方法：</strong><br>
             拿出皮尺測量臀部最寬的部分。<br>
@@ -331,6 +467,7 @@
     </div>
 
     <div id="result" class="step">
+        <h2 id="mainTitle">您的建議尺寸</h2>
         <div class="result-box">
             <div class="tag" id="prefTag"></div>
             <div>根據數據，建議尺寸為</div>
@@ -358,6 +495,7 @@
     </div>
 
     <div id="promo-main" class="step">
+        <h2 id="mainTitle">為您推薦</h2>
         <label style="text-align:center; font-size:18px;">請問您想找哪種類型的內褲？</label>
         <div class="menu-grid">
             <div class="menu-item" onclick="showSubCategory('shape')">
@@ -386,6 +524,7 @@
     </div>
 
     <div id="promo-sub" class="step">
+        <h2 id="mainTitle">商品分類</h2>
         <label id="subTitle" style="text-align:center; font-size:18px; margin-bottom:15px;"></label>
         <div id="subButtonsContainer"></div>
         <br>
@@ -393,7 +532,7 @@
     </div>
 
     <div id="end-screen" class="step" style="text-align: center;">
-        <h3 style="color:#d67d7d">感謝您的使用！</h3>
+        <h3 style="color:#d67d7d; margin-top:20px;">感謝您的使用！</h3>
         <p>希望您能找到最舒適的內褲。</p>
         <div class="care-box">
             小提醒：內褲建議使用冷水手洗，<br>
@@ -414,7 +553,7 @@
 <div id="toast">已複製尺寸資訊！</div>
 
 <script>
-    // 產品連結資料庫 (新增 shape 分類)
+    // 產品連結資料庫
     const productLinks = {
         shape: [
             { name: "🤰 我有小腹 (收腹款)", url: "https://www.faduobra.com/SalePage/Index/10028317" },
@@ -446,6 +585,45 @@
         finalSize: ''
     };
 
+    // --- 進度條控制函式 ---
+    function updateProgressBar(step) {
+        const barContainer = document.getElementById('progressBar');
+        const line = document.getElementById('progressLine');
+        const c1 = document.getElementById('circle1');
+        const c2 = document.getElementById('circle2');
+        const c3 = document.getElementById('circle3');
+
+        // 預設全部重置
+        c1.classList.remove('active');
+        c2.classList.remove('active');
+        c3.classList.remove('active');
+        
+        if (step === 0) { // Welcome or Promo
+            barContainer.style.display = 'none';
+        } else {
+            barContainer.style.display = 'flex';
+        }
+
+        if (step === 1) { // 身高體重
+            c1.classList.add('active');
+            line.style.width = '0%';
+        } else if (step === 2) { // 臀圍偏好
+            c1.classList.add('active');
+            c2.classList.add('active');
+            line.style.width = '50%';
+        } else if (step === 3) { // 結果頁
+            c1.classList.add('active');
+            c2.classList.add('active');
+            c3.classList.add('active');
+            line.style.width = '100%';
+        }
+    }
+
+    function startApp() {
+        switchStep('welcome-screen', 'step1');
+        updateProgressBar(1);
+    }
+
     function nextStep(currentStep) {
         if (currentStep === 1) {
             const h = document.getElementById('height').value;
@@ -457,6 +635,7 @@
             userData.height = parseInt(h);
             userData.weight = parseInt(w);
             switchStep('step1', 'step2');
+            updateProgressBar(2);
         }
     }
 
@@ -545,28 +724,30 @@
             }
         }
 
-        userData.finalSize = finalSize; // 儲存結果供複製使用
+        userData.finalSize = finalSize;
 
         switchStep('step2', 'result');
         document.getElementById('recommendedSize').innerText = finalSize;
         document.getElementById('resultDetail').innerText = message;
         document.getElementById('fittingNote').innerText = note;
+        updateProgressBar(3); // 完成步驟 3
     }
 
     function finishSession() {
         switchStep('result', 'end-screen');
+        updateProgressBar(0); // 隱藏進度條
     }
 
     function showRecommendations() {
         document.getElementById('result').classList.remove('active');
         document.getElementById('promo-sub').classList.remove('active');
         document.getElementById('promo-main').classList.add('active');
-        document.getElementById('mainTitle').innerText = "為您推薦";
+        updateProgressBar(0); // 進入導購，隱藏進度條以減少干擾
     }
 
     function backToResult() {
         switchStep('promo-main', 'result');
-        document.getElementById('mainTitle').innerText = "內褲尺寸小幫手";
+        updateProgressBar(3); // 返回結果，重新顯示進度條
     }
 
     function showSubCategory(type) {
@@ -609,13 +790,11 @@
         window.open(url, '_blank');
     }
 
-    // 複製結果功能
     function copyResult() {
         const hipInfo = userData.hip ? `${userData.hip}cm` : "未測量";
         const prefText = userData.preference === 'tight' ? '喜歡貼身' : '喜歡寬鬆';
         const textToCopy = `【我的內褲尺寸資訊】\n身高：${userData.height}cm\n體重：${userData.weight}kg\n臀圍：${hipInfo}\n偏好：${prefText}\n👉 系統建議尺寸：${userData.finalSize}`;
         
-        // 建立暫時的 textarea 元素來執行複製
         const tempInput = document.createElement("textarea");
         tempInput.value = textToCopy;
         document.body.appendChild(tempInput);
@@ -623,7 +802,6 @@
         document.execCommand("copy");
         document.body.removeChild(tempInput);
 
-        // 顯示 Toast 提示
         const x = document.getElementById("toast");
         x.className = "show";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);

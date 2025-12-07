@@ -24,14 +24,14 @@
             max-width: 400px;
             width: 100%;
             position: relative;
-            min-height: 550px; /* 稍微加高以容納進度條 */
+            min-height: 550px;
             display: flex;
             flex-direction: column;
         }
         
-        /* --- 進度條樣式 (新功能) --- */
+        /* --- 進度條樣式 --- */
         .progress-container {
-            display: none; /* 預設隱藏，歡迎頁不顯示 */
+            display: none;
             justify-content: space-between;
             align-items: center;
             position: relative;
@@ -54,7 +54,7 @@
             height: 3px;
             background-color: #d67d7d;
             z-index: 0;
-            width: 0%; /* 動態控制 */
+            width: 0%;
             transition: width 0.4s ease;
         }
         .step-circle-wrapper {
@@ -80,7 +80,7 @@
         .step-circle.active {
             background-color: #d67d7d;
             color: white;
-            box-shadow: 0 0 0 4px #fdf2f5; /* 外光暈效果 */
+            box-shadow: 0 0 0 4px #fdf2f5;
         }
         .step-label {
             font-size: 12px;
@@ -141,7 +141,7 @@
             font-size: 16px;
         }
         
-        /* 按鈕與其他元件保持原樣 */
+        /* 按鈕樣式 */
         .btn-group {
             display: flex;
             gap: 10px;
@@ -219,6 +219,7 @@
             background-color: #05b34c;
         }
 
+        /* 喜好選擇按鈕 */
         .pref-container {
             display: flex;
             gap: 10px;
@@ -243,6 +244,7 @@
             font-weight: bold;
         }
 
+        /* 導購選單 */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -277,6 +279,7 @@
             margin-bottom: 5px;
         }
 
+        /* 資訊框與提示 */
         .info-box {
             background-color: #fff8f8;
             border-left: 4px solid #d67d7d;
@@ -424,8 +427,7 @@
         <div class="welcome-note">
             💡 <strong>小提示：</strong><br>
             每個人身高體重和商品尺寸不盡相同。<br>
-            身高150cm豐腴與175cm瘦高的女孩，有可能選擇同樣尺寸的商品。<br>
-            此測量結果僅供參考。
+            例如：身高150cm豐腴與175cm瘦高的女孩，有可能選擇同樣尺寸的商品。
         </div>
     </div>
 
@@ -546,7 +548,7 @@
     </div>
 
     <div class="footer-note">
-        為了私密處健康，建議每 3-6 個月需替換內褲
+        此測量結果僅供參考
     </div>
 </div>
 
@@ -730,24 +732,24 @@
         document.getElementById('recommendedSize').innerText = finalSize;
         document.getElementById('resultDetail').innerText = message;
         document.getElementById('fittingNote').innerText = note;
-        updateProgressBar(3); // 完成步驟 3
+        updateProgressBar(3);
     }
 
     function finishSession() {
         switchStep('result', 'end-screen');
-        updateProgressBar(0); // 隱藏進度條
+        updateProgressBar(0);
     }
 
     function showRecommendations() {
         document.getElementById('result').classList.remove('active');
         document.getElementById('promo-sub').classList.remove('active');
         document.getElementById('promo-main').classList.add('active');
-        updateProgressBar(0); // 進入導購，隱藏進度條以減少干擾
+        updateProgressBar(0);
     }
 
     function backToResult() {
         switchStep('promo-main', 'result');
-        updateProgressBar(3); // 返回結果，重新顯示進度條
+        updateProgressBar(3);
     }
 
     function showSubCategory(type) {

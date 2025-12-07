@@ -14,6 +14,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            color: #444;
         }
         .container {
             background: white;
@@ -23,15 +24,19 @@
             max-width: 400px;
             width: 100%;
             position: relative;
-            min-height: 400px; /* 避免切換內容時高度跳動太大 */
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
         }
         h2 {
             color: #d67d7d;
             text-align: center;
             margin-bottom: 20px;
+            font-size: 22px;
         }
         .step {
             display: none;
+            flex-grow: 1; /* 讓內容撐開 */
         }
         .step.active {
             display: block;
@@ -53,40 +58,41 @@
             font-size: 16px;
         }
         
-        /* 按鈕樣式組 */
+        /* --- 按鈕樣式 --- */
         .btn-group {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         .btn-group button {
             flex: 1;
         }
-        
+        button {
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
         button.primary-btn {
             width: 100%;
             padding: 14px;
             background-color: #d67d7d;
             color: white;
-            border: none;
-            border-radius: 10px;
             font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
             margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(214, 125, 125, 0.2);
         }
         button.primary-btn:hover {
             background-color: #c06060;
+            transform: translateY(-1px);
         }
         button.secondary-btn {
             width: 100%;
             padding: 12px;
-            background-color: #e0e0e0;
-            color: #555;
-            border: none;
-            border-radius: 10px;
+            background-color: #f0f0f0;
+            color: #666;
             font-size: 14px;
-            cursor: pointer;
         }
         button.outline-btn {
             width: 100%;
@@ -94,16 +100,42 @@
             background-color: white;
             color: #d67d7d;
             border: 2px solid #d67d7d;
-            border-radius: 10px;
             font-size: 16px;
-            cursor: pointer;
             margin-bottom: 10px;
         }
-        button.outline-btn:hover {
-            background-color: #fff0f0;
+        button.copy-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            color: #888;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 20px;
+            margin-top: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        button.copy-btn:hover {
+            background: #f9f9f9;
+            color: #555;
+        }
+        /* LINE 按鈕專用樣式 */
+        button.line-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #06c755;
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(6, 199, 85, 0.2);
+        }
+        button.line-btn:hover {
+            background-color: #05b34c;
         }
 
-        /* 喜好選擇按鈕 */
+        /* --- 喜好選擇按鈕 --- */
         .pref-container {
             display: flex;
             gap: 10px;
@@ -127,15 +159,16 @@
             font-weight: bold;
         }
 
-        /* 導購選單格狀佈局 */
+        /* --- 導購選單佈局 --- */
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* 兩列 */
             gap: 10px;
             margin-top: 15px;
         }
+        /* 讓最後一個 "棉花糖" 或是 "身形" 橫跨整個寬度，如果需要的話，但這裡我們用5個 */
         .menu-item {
-            padding: 20px 10px;
+            padding: 15px 5px;
             background: #fff8f8;
             border: 1px solid #f0d0d0;
             border-radius: 10px;
@@ -144,6 +177,11 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.2s;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .menu-item:hover {
             background: #d67d7d;
@@ -151,34 +189,47 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(214, 125, 125, 0.3);
         }
-        .menu-item i {
-            display: block;
-            font-size: 24px;
+        .menu-icon {
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
+        /* --- 結果與提示 --- */
         .info-box {
             background-color: #fff8f8;
             border-left: 4px solid #d67d7d;
             padding: 15px;
-            margin-bottom: 20px;
-            font-size: 14px;
+            margin-bottom: 15px;
+            font-size: 13px;
             color: #666;
             line-height: 1.6;
         }
+        .care-box {
+            background-color: #f4f4f4;
+            color: #666;
+            font-size: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
         .result-box {
             text-align: center;
-            padding: 20px;
+            padding: 20px 10px;
             border: 2px dashed #d67d7d;
             border-radius: 15px;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            position: relative;
         }
         .result-size {
             font-size: 48px;
             color: #d67d7d;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 5px 0;
+            line-height: 1;
         }
         .tag {
             display: inline-block;
@@ -187,6 +238,7 @@
             border-radius: 4px;
             font-size: 12px;
             margin-bottom: 5px;
+            color: #555;
         }
         .note {
             font-size: 12px;
@@ -194,9 +246,47 @@
             margin-top: 5px;
             text-align: center;
         }
+        .footer-note {
+            margin-top: auto; /* 推到底部 */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 25px;
+            padding: 10px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
         }
     </style>
 </head>
@@ -206,29 +296,16 @@
     <h2 id="mainTitle">內褲尺寸小幫手</h2>
 
     <div id="step1" class="step active">
-        <label>請問您平時穿著的內褲尺寸是？</label>
-        <select id="usualSize">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-            <option value="XXXL">3XL</option>
-        </select>
-        <button class="primary-btn" onclick="nextStep(1)">下一步</button>
-    </div>
-
-    <div id="step2" class="step">
         <label>您的身高 (cm)</label>
         <input type="number" id="height" placeholder="例如：160">
         
         <label>您的體重 (kg)</label>
         <input type="number" id="weight" placeholder="例如：55">
         
-        <button class="primary-btn" onclick="nextStep(2)">下一步</button>
+        <button class="primary-btn" onclick="nextStep(1)">下一步</button>
     </div>
 
-    <div id="step3" class="step">
+    <div id="step2" class="step">
         <div class="info-box">
             <strong>💡 臀圍測量方法：</strong><br>
             拿出皮尺測量臀部最寬的部分。<br>
@@ -256,33 +333,52 @@
     <div id="result" class="step">
         <div class="result-box">
             <div class="tag" id="prefTag"></div>
-            <div>根據您的數據，建議尺寸為</div>
+            <div>根據數據，建議尺寸為</div>
             <div class="result-size" id="recommendedSize">L</div>
-            <div id="resultDetail" style="color: #666; font-size: 14px;"></div>
+            <div id="resultDetail" style="color: #666; font-size: 13px; margin-bottom: 8px;"></div>
+            <button class="copy-btn" onclick="copyResult()">
+                📋 複製我的尺寸小卡
+            </button>
         </div>
         
-        <div class="info-box" id="fittingNote"></div>
+        <div class="info-box" id="fittingNote" style="margin-bottom: 10px;"></div>
+
+        <button class="primary-btn" onclick="showRecommendations()">繼續推薦合適產品</button>
         
-        <div class="btn-group">
-            <button class="secondary-btn" onclick="finishSession()">到此為止</button>
-            <button class="primary-btn" onclick="showRecommendations()">繼續推薦合適產品</button>
+        <button class="line-btn" onclick="window.open('https://lin.ee/4WoBo0r', '_blank')">
+            💬 有疑問？加入 LINE 客服諮詢
+        </button>
+
+        <button class="secondary-btn" onclick="finishSession()">到此為止</button>
+
+        <div class="care-box">
+            小提醒：內褲建議使用冷水手洗，<br>
+            若要機洗請務必使用洗衣袋，才能延長壽命喔！
         </div>
     </div>
 
     <div id="promo-main" class="step">
         <label style="text-align:center; font-size:18px;">請問您想找哪種類型的內褲？</label>
         <div class="menu-grid">
+            <div class="menu-item" onclick="showSubCategory('shape')">
+                <div class="menu-icon">💃</div>
+                身形修飾
+            </div>
             <div class="menu-item" onclick="showSubCategory('material')">
-                🍃<br>以材質區分
+                <div class="menu-icon">🍃</div>
+                以材質區分
             </div>
             <div class="menu-item" onclick="showSubCategory('cut')">
-                ✂️<br>以版型區分
+                <div class="menu-icon">✂️</div>
+                以版型區分
             </div>
             <div class="menu-item" onclick="showSubCategory('habit')">
-                ❤️<br>以穿著習慣
+                <div class="menu-icon">❤️</div>
+                解決困擾
             </div>
-            <div class="menu-item" onclick="goToLink('https://www.faduobra.com/v2/official/SalePageCategory/514005?sortMode=Curator')">
-                🌸<br>棉花糖女孩專區
+             <div class="menu-item" style="grid-column: span 2;" onclick="goToLink('https://www.faduobra.com/v2/official/SalePageCategory/514005?sortMode=Curator')">
+                <div class="menu-icon">🌸</div>
+                棉花糖女孩專區
             </div>
         </div>
         <br>
@@ -291,24 +387,39 @@
 
     <div id="promo-sub" class="step">
         <label id="subTitle" style="text-align:center; font-size:18px; margin-bottom:15px;"></label>
-        <div id="subButtonsContainer">
-            </div>
+        <div id="subButtonsContainer"></div>
         <br>
         <button class="secondary-btn" onclick="showRecommendations()">回分類選單</button>
     </div>
 
     <div id="end-screen" class="step" style="text-align: center;">
-        <h3>感謝您的使用！</h3>
+        <h3 style="color:#d67d7d">感謝您的使用！</h3>
         <p>希望您能找到最舒適的內褲。</p>
+        <div class="care-box">
+            小提醒：內褲建議使用冷水手洗，<br>
+            若要機洗請務必使用洗衣袋，才能延長壽命喔！
+        </div>
         <br>
+        <button class="line-btn" onclick="window.open('https://lin.ee/4WoBo0r', '_blank')">
+            💬 加入 LINE 好友
+        </button>
         <button class="outline-btn" onclick="location.reload()">重新測量</button>
     </div>
 
+    <div class="footer-note">
+        為了私密處健康，建議每 3-6 個月需替換內褲
+    </div>
 </div>
 
+<div id="toast">已複製尺寸資訊！</div>
+
 <script>
-    // 產品連結資料庫
+    // 產品連結資料庫 (新增 shape 分類)
     const productLinks = {
+        shape: [
+            { name: "🤰 我有小腹 (收腹款)", url: "https://www.faduobra.com/SalePage/Index/10028317" },
+            { name: "🍑 我有馬鞍肉 (修飾款)", url: "https://www.faduobra.com/SalePage/Index/11098260" }
+        ],
         material: [
             { name: "🍃 涼爽透氣", url: "https://www.faduobra.com/v2/official/SalePageCategory/520439?sortMode=Curator" },
             { name: "🛡️ 安鋅抗菌", url: "https://www.faduobra.com/v2/official/SalePageCategory/491112" },
@@ -328,18 +439,15 @@
     };
 
     let userData = {
-        usualSize: '',
         height: 0,
         weight: 0,
         hip: 0,
-        preference: ''
+        preference: '',
+        finalSize: ''
     };
 
     function nextStep(currentStep) {
         if (currentStep === 1) {
-            userData.usualSize = document.getElementById('usualSize').value;
-            switchStep('step1', 'step2');
-        } else if (currentStep === 2) {
             const h = document.getElementById('height').value;
             const w = document.getElementById('weight').value;
             if (!h || !w) {
@@ -348,7 +456,7 @@
             }
             userData.height = parseInt(h);
             userData.weight = parseInt(w);
-            switchStep('step2', 'step3');
+            switchStep('step1', 'step2');
         }
     }
 
@@ -384,7 +492,7 @@
             }
             userData.hip = hip;
 
-            // 臀圍邏輯 (含模糊地帶 +/- 1cm)
+            // 臀圍邏輯
             if (hip < 91) {
                 finalSize = 'M';
                 note = '依據臀圍，M 號對您來說是標準合適的尺寸。';
@@ -416,7 +524,7 @@
             message = `依據臀圍 (${hip}cm) 與喜好判斷`;
 
         } else {
-            // 體重邏輯 (模糊地帶)
+            // 體重邏輯
             const w = userData.weight;
             if (w < 52) finalSize = 'M';
             else if (w >= 52 && w <= 55) finalSize = (userData.preference === 'tight') ? 'M' : 'L';
@@ -437,20 +545,19 @@
             }
         }
 
-        switchStep('step3', 'result');
+        userData.finalSize = finalSize; // 儲存結果供複製使用
+
+        switchStep('step2', 'result');
         document.getElementById('recommendedSize').innerText = finalSize;
         document.getElementById('resultDetail').innerText = message;
         document.getElementById('fittingNote').innerText = note;
     }
-
-    // --- 導購功能相關 Script ---
 
     function finishSession() {
         switchStep('result', 'end-screen');
     }
 
     function showRecommendations() {
-        // 從結果頁或子選單跳轉到導購主選單
         document.getElementById('result').classList.remove('active');
         document.getElementById('promo-sub').classList.remove('active');
         document.getElementById('promo-main').classList.add('active');
@@ -464,11 +571,14 @@
 
     function showSubCategory(type) {
         const container = document.getElementById('subButtonsContainer');
-        container.innerHTML = ''; // 清空舊按鈕
+        container.innerHTML = ''; 
         let title = '';
         let items = [];
 
-        if (type === 'material') {
+        if (type === 'shape') {
+            title = '您想修飾的身形困擾是？';
+            items = productLinks.shape;
+        } else if (type === 'material') {
             title = '您偏好的材質是？';
             items = productLinks.material;
         } else if (type === 'cut') {
@@ -481,7 +591,6 @@
 
         document.getElementById('subTitle').innerText = title;
 
-        // 產生按鈕
         items.forEach(item => {
             const btn = document.createElement('button');
             btn.className = 'outline-btn';
@@ -498,6 +607,26 @@
 
     function goToLink(url) {
         window.open(url, '_blank');
+    }
+
+    // 複製結果功能
+    function copyResult() {
+        const hipInfo = userData.hip ? `${userData.hip}cm` : "未測量";
+        const prefText = userData.preference === 'tight' ? '喜歡貼身' : '喜歡寬鬆';
+        const textToCopy = `【我的內褲尺寸資訊】\n身高：${userData.height}cm\n體重：${userData.weight}kg\n臀圍：${hipInfo}\n偏好：${prefText}\n👉 系統建議尺寸：${userData.finalSize}`;
+        
+        // 建立暫時的 textarea 元素來執行複製
+        const tempInput = document.createElement("textarea");
+        tempInput.value = textToCopy;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // 顯示 Toast 提示
+        const x = document.getElementById("toast");
+        x.className = "show";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 </script>
 

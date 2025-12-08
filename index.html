@@ -337,10 +337,10 @@
             background: white;
         }
         
-        /* 新增：使用者數據小卡 */
+        /* 使用者數據小卡 */
         .user-data-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr; /* 三欄：身高/體重/臀圍 */
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 5px;
             background: #fffbfb;
             padding: 10px;
@@ -394,6 +394,44 @@
             color: #aaa;
             border-top: 1px solid #eee;
             width: 100%;
+        }
+
+        /* --- 圖片預覽 Modal (新增) --- */
+        #imageModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #imageModal img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+        .modal-tip {
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
         }
 
         @keyframes fadeIn {
@@ -503,7 +541,7 @@
             <div class="result-size" id="recommendedSize">L</div>
             <div id="resultDetail" style="color: #666; font-size: 13px; margin-bottom: 8px;"></div>
             
-            <button class="screenshot-btn" id="dlBtn" onclick="downloadCard()">
+            <button class="screenshot-btn" id="dlBtn" onclick="generateAndShowImage()">
                 📸 下載尺寸小卡
             </button>
         </div>
@@ -575,6 +613,12 @@
     </div>
 </div>
 
+<div id="imageModal" onclick="closeImageModal()">
+    <div class="modal-close" onclick="closeImageModal()">×</div>
+    <img id="generatedImage" src="" alt="尺寸小卡">
+    <div class="modal-tip">👆 請長按圖片即可儲存至手機相簿</div>
+</div>
+
 <script>
     // 產品連結資料庫
     const productLinks = {
@@ -616,7 +660,6 @@
         const c2 = document.getElementById('circle2');
         const c3 = document.getElementById('circle3');
 
-        // 重置
         c1.classList.remove('active');
         c2.classList.remove('active');
         c3.classList.remove('active');
@@ -864,33 +907,46 @@
         window.open(url, '_blank');
     }
 
-    // --- 截圖下載功能 ---
-    function downloadCard() {
+    // --- 截圖預覽與下載功能 (手機版修正) ---
+    function generateAndShowImage() {
         const element = document.getElementById("captureArea");
         const btn = document.getElementById("dlBtn");
         const originalText = btn.innerHTML;
-        btn.innerHTML = "處理中...";
+        
+        // 變更按鈕文字，告知使用者正在處理
+        btn.innerHTML = "生成中...";
 
         html2canvas(element, {
-            scale: 2,
-            backgroundColor: "#ffffff",
+            scale: 2, // 提高解析度
+            backgroundColor: "#ffffff", // 強制白底
             onclone: (clonedDoc) => {
+                // 截圖時隱藏按鈕
                 const clonedBtn = clonedDoc.getElementById('dlBtn');
                 if (clonedBtn) {
                     clonedBtn.style.display = 'none';
                 }
             }
         }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = '法朵內褲尺寸建議卡.png';
-            link.href = canvas.toDataURL();
-            link.click();
+            // 生成圖片網址 (DataURL)
+            const imgData = canvas.toDataURL("image/png");
+            
+            // 顯示 Modal
+            const modal = document.getElementById('imageModal');
+            const resultImg = document.getElementById('generatedImage');
+            resultImg.src = imgData;
+            modal.style.display = 'flex';
+            
+            // 復原按鈕文字
             btn.innerHTML = originalText;
         }).catch(err => {
             console.error(err);
-            alert("截圖失敗，請手動截圖試試看！");
+            alert("圖片生成失敗，請重新整理試試看！");
             btn.innerHTML = originalText;
         });
+    }
+
+    function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
     }
 </script>
 

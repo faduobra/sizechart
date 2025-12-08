@@ -37,13 +37,13 @@
             align-items: center;
             position: relative;
             margin-bottom: 30px;
-            padding: 0 20px;
+            padding: 0 5px;
         }
         .progress-line-bg {
             position: absolute;
             top: 15px;
-            left: 35px;
-            right: 35px;
+            left: 20px;
+            right: 20px;
             height: 3px;
             background-color: #eee;
             z-index: 0;
@@ -51,7 +51,7 @@
         .progress-line-fill {
             position: absolute;
             top: 15px;
-            left: 35px;
+            left: 20px;
             height: 3px;
             background-color: #d67d7d;
             z-index: 0;
@@ -64,6 +64,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
         .step-circle {
             width: 30px;
@@ -87,6 +88,7 @@
             font-size: 12px;
             color: #999;
             margin-top: 6px;
+            white-space: nowrap;
         }
         .step-circle.active + .step-label {
             color: #d67d7d;
@@ -197,7 +199,7 @@
             padding: 8px 15px;
             font-size: 13px;
             border-radius: 20px;
-            margin-top: 10px;
+            margin-top: 15px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -321,7 +323,7 @@
             text-align: left;
         }
         
-        /* 這是我們要截圖的目標區域 */
+        /* 截圖卡片區域 */
         .result-box {
             text-align: center;
             padding: 20px 10px;
@@ -332,7 +334,34 @@
             position: relative;
             width: 100%;
             box-sizing: border-box;
-            background: white; /* 確保截圖有白底 */
+            background: white;
+        }
+        
+        /* 新增：使用者數據小卡 */
+        .user-data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* 三欄：身高/體重/臀圍 */
+            gap: 5px;
+            background: #fffbfb;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #fce8e8;
+        }
+        .data-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .data-label {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 2px;
+        }
+        .data-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
         }
         
         .result-size {
@@ -453,6 +482,22 @@
         <h2 id="mainTitle">您的建議尺寸</h2>
         
         <div class="result-box" id="captureArea">
+            
+            <div class="user-data-grid">
+                <div class="data-item">
+                    <span class="data-label">身高</span>
+                    <span class="data-value" id="dispHeight">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">體重</span>
+                    <span class="data-value" id="dispWeight">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">臀圍</span>
+                    <span class="data-value" id="dispHip">--</span>
+                </div>
+            </div>
+
             <div class="tag" id="prefTag"></div>
             <div>根據數據，建議尺寸為</div>
             <div class="result-size" id="recommendedSize">L</div>
@@ -472,11 +517,6 @@
         </button>
 
         <button class="secondary-btn" onclick="finishSession()">到此為止</button>
-
-        <div class="care-box">
-            小提醒：內褲建議使用冷水手洗，<br>
-            若要機洗請務必使用洗衣袋，才能延長壽命喔！
-        </div>
     </div>
 
     <div id="promo-main" class="step">
@@ -646,6 +686,10 @@
         const prefText = userData.preference === 'tight' ? '喜歡合身' : '喜歡寬鬆';
         document.getElementById('prefTag').innerText = `偏好：${prefText}`;
 
+        // 更新卡片上的數據
+        document.getElementById('dispHeight').innerText = userData.height + 'cm';
+        document.getElementById('dispWeight').innerText = userData.weight + 'kg';
+
         if (hasHipData) {
             const hip = parseInt(document.getElementById('hip').value);
             if (!hip) {
@@ -653,57 +697,104 @@
                 return;
             }
             userData.hip = hip;
+            
+            // 更新卡片臀圍
+            document.getElementById('dispHip').innerText = hip + 'cm';
 
             // 臀圍邏輯
-            if (hip < 91) {
+            if (hip < 82) {
                 finalSize = 'M';
-                note = '依據臀圍，M 號對您來說是標準合適的尺寸。';
-            } else if (hip >= 91 && hip <= 93) {
-                finalSize = (userData.preference === 'tight') ? 'M' : 'L';
-                note = `數據介於 M/L 之間，依照您${prefText}的喜好建議選擇 ${finalSize}。`;
-            } else if (hip > 93 && hip < 97) {
-                finalSize = 'L';
-                note = '依據臀圍，L 號是您的最佳選擇。';
-            } else if (hip >= 97 && hip <= 99) {
-                finalSize = (userData.preference === 'tight') ? 'L' : 'XL';
-                note = `數據介於 L/XL 之間，依照您${prefText}的喜好建議選擇 ${finalSize}。`;
-            } else if (hip > 99 && hip < 104) {
-                finalSize = 'XL';
-                note = 'XL 號的彈性範圍非常適合您的身形。';
-            } else if (hip >= 104 && hip <= 106) {
-                finalSize = (userData.preference === 'tight') ? 'XL' : 'XXL';
-                note = `數據介於 XL/XXL 之間，依照您${prefText}的喜好建議選擇 ${finalSize}。`;
-            } else if (hip > 106 && hip < 114) {
-                finalSize = 'XXL';
-                note = 'XXL 號能提供您足夠的包覆與舒適度。';
-            } else if (hip >= 114 && hip <= 116) {
-                finalSize = (userData.preference === 'tight') ? 'XXL' : 'XXXL';
-                note = `數據介於 XXL/3XL 之間，依照您${prefText}的喜好建議選擇 ${finalSize}。`;
+                note = '依據臀圍，M 號對您來說是合適的尺寸。';
+            } else if (hip >= 82 && hip <= 92) {
+                if (hip === 92) {
+                    if (userData.preference === 'tight') {
+                         finalSize = 'L';
+                         note = `您的臀圍處於 M/L 交界，因您${prefText}，建議選擇 L 號會有較好的包覆感。`;
+                    } else {
+                         finalSize = 'L';
+                         note = `您的臀圍處於 M/L 交界，建議選擇 L 號穿著較為舒適。`;
+                    }
+                } else {
+                    finalSize = 'M';
+                    note = '依據臀圍，M 號是您的最佳選擇。';
+                }
+            } else if (hip > 92 && hip <= 98) {
+                if (hip === 98) {
+                    if (userData.preference === 'tight') {
+                        finalSize = 'L';
+                        note = `您的臀圍處於 L/XL 交界，因您${prefText}，建議選擇 L 號。`;
+                    } else {
+                        finalSize = 'XL';
+                        note = `您的臀圍處於 L/XL 交界，因您${prefText}，建議選擇 XL 號較為自在。`;
+                    }
+                } else {
+                     finalSize = 'L';
+                     note = '依據臀圍，L 號對您來說很合適。';
+                }
+            } else if (hip > 98 && hip <= 105) {
+                if (hip === 105) {
+                    finalSize = 'XXL';
+                    note = `您的臀圍處於 XL/XXL 交界，建議選擇 XXL 號避免卡臀。`;
+                } else {
+                    finalSize = 'XL';
+                    note = 'XL 號的彈性範圍非常適合您的身形。';
+                }
+            } else if (hip > 105 && hip <= 115) {
+                if (hip === 115) {
+                    finalSize = 'XXXL';
+                     note = `您的臀圍處於 XXL/3XL 交界，建議選擇 3XL 號較為舒適。`;
+                } else {
+                    finalSize = 'XXL';
+                    note = 'XXL 號能提供您足夠的包覆與舒適度。';
+                }
+            } else if (hip > 115 && hip <= 125) {
+                finalSize = 'XXXL';
+                note = '3XL 號的大彈性與包覆度非常適合您。';
             } else {
                 finalSize = 'XXXL';
-                note = '3XL 號的大彈性與空間非常適合您。';
+                note = '建議選擇我們最大的 3XL 號，其彈性佳能提供舒適的穿著感。';
             }
             message = `依據臀圍 (${hip}cm) 與喜好判斷`;
 
         } else {
             // 體重邏輯
             const w = userData.weight;
-            if (w < 52) finalSize = 'M';
-            else if (w >= 52 && w <= 55) finalSize = (userData.preference === 'tight') ? 'M' : 'L';
-            else if (w > 55 && w < 62) finalSize = 'L';
-            else if (w >= 62 && w <= 65) finalSize = (userData.preference === 'tight') ? 'L' : 'XL';
-            else if (w > 65 && w < 72) finalSize = 'XL';
-            else if (w >= 72 && w <= 75) finalSize = (userData.preference === 'tight') ? 'XL' : 'XXL';
-            else if (w > 75 && w < 82) finalSize = 'XXL';
-            else if (w >= 82 && w <= 85) finalSize = (userData.preference === 'tight') ? 'XXL' : 'XXXL';
-            else finalSize = 'XXXL';
+            
+            // 更新卡片臀圍顯示為未測量
+            document.getElementById('dispHip').innerText = "未測量";
+            
+            if (w <= 50) {
+                finalSize = 'M';
+            } else if (w > 50 && w <= 55) {
+                 if (userData.preference === 'tight') {
+                     finalSize = 'M';
+                 } else {
+                     finalSize = 'L';
+                 }
+            } else if (w > 55 && w <= 62) {
+                if (w <= 60) {
+                     finalSize = 'L';
+                } else {
+                     finalSize = 'XL';
+                }
+            } else if (w > 62 && w <= 72) {
+                finalSize = 'XL';
+            } else if (w > 72 && w <= 81) {
+                if (w < 73) {
+                    finalSize = (userData.preference === 'tight') ? 'XL' : 'XXL';
+                } else {
+                    finalSize = 'XXL';
+                }
+            } else {
+                finalSize = 'XXXL';
+            }
 
             message = `依據體重推算 (建議測量臀圍更準確)`;
             
-            if (['52', '53', '54', '55', '62', '63', '64', '65', '72', '73', '74', '75'].includes(w.toString())) {
-                note = `體重處於尺寸交界，已依據您「${prefText}」的設定挑選。`;
+            if (['51', '52', '53', '54', '55', '61', '62', '72', '73'].includes(w.toString())) {
+                note = `您的體重處於尺寸交界地帶，系統已依據您「${prefText}」的設定為您挑選。`;
             } else {
-                note = `系統依據您的體重 (${w}kg) 評估。若您下半身較豐腴，建議參考臀圍。`;
+                note = `系統依據您的體重 (${w}kg) 進行評估。若您屬於下半身較豐腴的身形，建議參考臀圍數據會更準確。`;
             }
         }
 
@@ -776,31 +867,24 @@
     // --- 截圖下載功能 ---
     function downloadCard() {
         const element = document.getElementById("captureArea");
-        
-        // 變更按鈕文字，讓使用者知道正在處理
         const btn = document.getElementById("dlBtn");
         const originalText = btn.innerHTML;
         btn.innerHTML = "處理中...";
 
-        // 使用 html2canvas 截圖
-        // onclone 參數用於在截圖發生前，隱藏按鈕，這樣圖片裡就不會有按鈕
         html2canvas(element, {
-            scale: 2, // 提高解析度
+            scale: 2,
             backgroundColor: "#ffffff",
             onclone: (clonedDoc) => {
                 const clonedBtn = clonedDoc.getElementById('dlBtn');
                 if (clonedBtn) {
-                    clonedBtn.style.display = 'none'; // 在截圖中隱藏按鈕
+                    clonedBtn.style.display = 'none';
                 }
             }
         }).then(canvas => {
-            // 建立下載連結
             const link = document.createElement('a');
             link.download = '法朵內褲尺寸建議卡.png';
             link.href = canvas.toDataURL();
             link.click();
-            
-            // 復原按鈕文字
             btn.innerHTML = originalText;
         }).catch(err => {
             console.error(err);

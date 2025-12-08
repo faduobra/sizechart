@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>法朵內褲尺寸挑選攻略</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -187,24 +188,28 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
-        button.copy-btn {
-            background: transparent;
-            border: 1px solid #ddd;
-            color: #888;
-            padding: 5px 10px;
-            font-size: 12px;
+        
+        /* 截圖下載按鈕樣式 */
+        button.screenshot-btn {
+            background: #fff0f0;
+            border: 1px solid #d67d7d;
+            color: #d67d7d;
+            padding: 8px 15px;
+            font-size: 13px;
             border-radius: 20px;
-            margin-top: 5px;
+            margin-top: 10px;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             justify-content: center;
+            transition: 0.3s;
         }
-        button.copy-btn:hover {
-            background: #f9f9f9;
-            color: #555;
+        button.screenshot-btn:hover {
+            background: #d67d7d;
+            color: white;
         }
+
         button.line-btn {
             width: 100%;
             padding: 14px;
@@ -315,6 +320,8 @@
             border-radius: 10px;
             text-align: left;
         }
+        
+        /* 這是我們要截圖的目標區域 */
         .result-box {
             text-align: center;
             padding: 20px 10px;
@@ -325,7 +332,9 @@
             position: relative;
             width: 100%;
             box-sizing: border-box;
+            background: white; /* 確保截圖有白底 */
         }
+        
         .result-size {
             font-size: 48px;
             color: #d67d7d;
@@ -361,34 +370,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        
-        #toast {
-            visibility: hidden;
-            min-width: 200px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 25px;
-            padding: 10px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 14px;
-        }
-        #toast.show {
-            visibility: visible;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-        @keyframes fadein {
-            from {bottom: 0; opacity: 0;}
-            to {bottom: 30px; opacity: 1;}
-        }
-        @keyframes fadeout {
-            from {bottom: 30px; opacity: 1;}
-            to {bottom: 0; opacity: 0;}
         }
     </style>
 </head>
@@ -470,13 +451,15 @@
 
     <div id="result" class="step">
         <h2 id="mainTitle">您的建議尺寸</h2>
-        <div class="result-box">
+        
+        <div class="result-box" id="captureArea">
             <div class="tag" id="prefTag"></div>
             <div>根據數據，建議尺寸為</div>
             <div class="result-size" id="recommendedSize">L</div>
             <div id="resultDetail" style="color: #666; font-size: 13px; margin-bottom: 8px;"></div>
-            <button class="copy-btn" onclick="copyResult()">
-                📋 複製我的尺寸小卡
+            
+            <button class="screenshot-btn" id="dlBtn" onclick="downloadCard()">
+                📸 下載尺寸小卡
             </button>
         </div>
         
@@ -552,8 +535,6 @@
     </div>
 </div>
 
-<div id="toast">已複製尺寸資訊！</div>
-
 <script>
     // 產品連結資料庫
     const productLinks = {
@@ -587,7 +568,7 @@
         finalSize: ''
     };
 
-    // --- 進度條控制函式 ---
+    // --- 進度條控制 ---
     function updateProgressBar(step) {
         const barContainer = document.getElementById('progressBar');
         const line = document.getElementById('progressLine');
@@ -595,7 +576,7 @@
         const c2 = document.getElementById('circle2');
         const c3 = document.getElementById('circle3');
 
-        // 預設全部重置
+        // 重置
         c1.classList.remove('active');
         c2.classList.remove('active');
         c3.classList.remove('active');
@@ -792,21 +773,40 @@
         window.open(url, '_blank');
     }
 
-    function copyResult() {
-        const hipInfo = userData.hip ? `${userData.hip}cm` : "未測量";
-        const prefText = userData.preference === 'tight' ? '喜歡貼身' : '喜歡寬鬆';
-        const textToCopy = `【我的內褲尺寸資訊】\n身高：${userData.height}cm\n體重：${userData.weight}kg\n臀圍：${hipInfo}\n偏好：${prefText}\n👉 系統建議尺寸：${userData.finalSize}`;
+    // --- 截圖下載功能 ---
+    function downloadCard() {
+        const element = document.getElementById("captureArea");
         
-        const tempInput = document.createElement("textarea");
-        tempInput.value = textToCopy;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
+        // 變更按鈕文字，讓使用者知道正在處理
+        const btn = document.getElementById("dlBtn");
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "處理中...";
 
-        const x = document.getElementById("toast");
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        // 使用 html2canvas 截圖
+        // onclone 參數用於在截圖發生前，隱藏按鈕，這樣圖片裡就不會有按鈕
+        html2canvas(element, {
+            scale: 2, // 提高解析度
+            backgroundColor: "#ffffff",
+            onclone: (clonedDoc) => {
+                const clonedBtn = clonedDoc.getElementById('dlBtn');
+                if (clonedBtn) {
+                    clonedBtn.style.display = 'none'; // 在截圖中隱藏按鈕
+                }
+            }
+        }).then(canvas => {
+            // 建立下載連結
+            const link = document.createElement('a');
+            link.download = '法朵內褲尺寸建議卡.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            
+            // 復原按鈕文字
+            btn.innerHTML = originalText;
+        }).catch(err => {
+            console.error(err);
+            alert("截圖失敗，請手動截圖試試看！");
+            btn.innerHTML = originalText;
+        });
     }
 </script>
 

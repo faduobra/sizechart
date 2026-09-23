@@ -7,17 +7,9 @@
     <!-- 引入 html2canvas 截圖功能 -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
-        :root {
-            --main-color: #d67d7d;
-            --main-color-hover: #c06060;
-            --bg-color: #fdf2f5;
-            --box-bg: #fff8f8;
-            --border-color: #f0d0d0;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
+            background-color: #fdf2f5;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,7 +54,7 @@
             top: 15px;
             left: 20px;
             height: 3px;
-            background-color: var(--main-color);
+            background-color: #d67d7d;
             z-index: 0;
             width: 0%;
             transition: width 0.4s ease;
@@ -89,9 +81,9 @@
             transition: all 0.4s;
         }
         .step-circle.active {
-            background-color: var(--main-color);
+            background-color: #d67d7d;
             color: white;
-            box-shadow: 0 0 0 4px var(--bg-color);
+            box-shadow: 0 0 0 4px #fdf2f5;
         }
         .step-label {
             font-size: 12px;
@@ -100,20 +92,20 @@
             white-space: nowrap;
         }
         .step-circle.active + .step-label {
-            color: var(--main-color);
+            color: #d67d7d;
             font-weight: bold;
         }
 
         /* --- 一般樣式 --- */
         h2 {
-            color: var(--main-color);
+            color: #d67d7d;
             text-align: center;
             margin-bottom: 20px;
             font-size: 22px;
         }
         .welcome-title {
             font-size: 26px;
-            color: var(--main-color);
+            color: #d67d7d;
             margin-bottom: 30px;
             line-height: 1.4;
         }
@@ -125,7 +117,7 @@
         }
         .step.active {
             display: flex;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s;
         }
         
         #welcome-screen {
@@ -160,6 +152,9 @@
             margin-top: 10px;
             width: 100%;
         }
+        .btn-group button {
+            flex: 1;
+        }
         button {
             border: none;
             border-radius: 10px;
@@ -170,14 +165,14 @@
         button.primary-btn {
             width: 100%;
             padding: 14px;
-            background-color: var(--main-color);
+            background-color: #d67d7d;
             color: white;
             font-size: 18px;
             margin-bottom: 10px;
             box-shadow: 0 4px 10px rgba(214, 125, 125, 0.2);
         }
         button.primary-btn:hover {
-            background-color: var(--main-color-hover);
+            background-color: #c06060;
             transform: translateY(-1px);
         }
         button.secondary-btn {
@@ -191,16 +186,17 @@
             width: 100%;
             padding: 12px;
             background-color: white;
-            color: var(--main-color);
-            border: 2px solid var(--main-color);
+            color: #d67d7d;
+            border: 2px solid #d67d7d;
             font-size: 16px;
             margin-bottom: 10px;
         }
         
+        /* 截圖下載按鈕樣式 */
         button.screenshot-btn {
             background: #fff0f0;
-            border: 1px solid var(--main-color);
-            color: var(--main-color);
+            border: 1px solid #d67d7d;
+            color: #d67d7d;
             padding: 8px 15px;
             font-size: 13px;
             border-radius: 20px;
@@ -213,7 +209,7 @@
             transition: 0.3s;
         }
         button.screenshot-btn:hover {
-            background: var(--main-color);
+            background: #d67d7d;
             color: white;
         }
 
@@ -250,9 +246,9 @@
             transition: all 0.3s;
         }
         .pref-btn.selected {
-            border-color: var(--main-color);
+            border-color: #d67d7d;
             background-color: #fff0f0;
-            color: var(--main-color);
+            color: #d67d7d;
             font-weight: bold;
         }
 
@@ -266,11 +262,11 @@
         }
         .menu-item {
             padding: 15px 5px;
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
+            background: #fff8f8;
+            border: 1px solid #f0d0d0;
             border-radius: 10px;
             text-align: center;
-            color: var(--main-color);
+            color: #d67d7d;
             font-weight: bold;
             cursor: pointer;
             transition: 0.2s;
@@ -281,7 +277,7 @@
             justify-content: center;
         }
         .menu-item:hover {
-            background: var(--main-color);
+            background: #d67d7d;
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(214, 125, 125, 0.3);
@@ -293,8 +289,8 @@
 
         /* 資訊框與提示 */
         .info-box {
-            background-color: var(--box-bg);
-            border-left: 4px solid var(--main-color);
+            background-color: #fff8f8;
+            border-left: 4px solid #d67d7d;
             padding: 15px;
             margin-bottom: 15px;
             font-size: 13px;
@@ -317,12 +313,22 @@
             width: 100%;
             box-sizing: border-box;
         }
+        .welcome-note {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.6;
+            margin-top: 30px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+        }
         
         /* 截圖卡片區域 */
         .result-box {
             text-align: center;
             padding: 20px 10px;
-            border: 2px dashed var(--main-color);
+            border: 2px dashed #d67d7d;
             border-radius: 15px;
             margin-top: 0;
             margin-bottom: 15px;
@@ -332,6 +338,7 @@
             background: white;
         }
         
+        /* 使用者數據小卡 */
         .user-data-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -360,7 +367,7 @@
         
         .result-size {
             font-size: 48px;
-            color: var(--main-color);
+            color: #d67d7d;
             font-weight: bold;
             margin: 5px 0;
             line-height: 1;
@@ -380,8 +387,17 @@
             margin-top: 5px;
             text-align: center;
         }
+        .footer-note {
+            margin-top: auto;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+            width: 100%;
+        }
 
-        /* 圖片預覽 Modal */
+        /* --- 圖片預覽 Modal --- */
         #imageModal {
             display: none;
             position: fixed;
@@ -394,20 +410,12 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        #imageModal.show {
-            display: flex;
-            opacity: 1;
         }
         #imageModal img {
             max-width: 90%;
             max-height: 80vh;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            /* 防止點擊圖片穿透關閉視窗 */
-            pointer-events: auto; 
         }
         .modal-close {
             position: absolute;
@@ -417,7 +425,6 @@
             font-size: 30px;
             cursor: pointer;
             z-index: 10000;
-            padding: 10px;
         }
         .modal-tip {
             color: white;
@@ -442,6 +449,7 @@
     <div class="progress-container" id="progressBar">
         <div class="progress-line-bg"></div>
         <div class="progress-line-fill" id="progressLine"></div>
+        
         <div class="step-circle-wrapper">
             <div class="step-circle" id="circle1">1</div>
             <div class="step-label">基本資料</div>
@@ -458,17 +466,25 @@
 
     <!-- 步驟 0: 歡迎頁面 -->
     <div id="welcome-screen" class="step active">
-        <div class="welcome-title">歡迎使用<br><b>法朵內褲尺寸測量攻略</b></div>
+        <div class="welcome-title">
+            歡迎使用<br>
+            <b>法朵內褲尺寸測量攻略</b>
+        </div>
+        
         <div style="font-size: 60px; margin-bottom: 20px;">📏</div>
+
         <button class="primary-btn" onclick="startApp()">開始測量</button>
-        <div class="info-box" style="margin-top: 20px; font-size: 12px;">
-            💡 系統會自動記憶您的測量數據，不怕跳出網頁需要重新填寫喔！
+
+        <div class="welcome-note">
+            💡 <strong>小提示：</strong><br>
+            每個人身高體重和商品尺寸不盡相同。<br>
+            例如：身高150cm豐腴與175cm瘦高的女孩，有可能選擇同樣尺寸的商品。
         </div>
     </div>
 
     <!-- 步驟 1: 身高體重 -->
     <div id="step1" class="step">
-        <h2 id="mainTitle">輸入基本資料</h2>
+        <h2>輸入基本資料</h2>
         <label>您的身高 (cm)</label>
         <input type="number" id="height" placeholder="例如：160">
         
@@ -480,9 +496,11 @@
 
     <!-- 步驟 2: 臀圍與喜好 -->
     <div id="step2" class="step">
-        <h2 id="mainTitle">身形與偏好</h2>
+        <h2>身形與偏好</h2>
         <div class="info-box">
-            <strong>💡 臀圍測量方法：</strong><br>拿出皮尺測量臀部最寬的部分。<br>如沒有皮尺也可以用繩子測量紀錄，再用直尺測量長度即可。
+            <strong>💡 臀圍測量方法：</strong><br>
+            拿出皮尺測量臀部最寬的部分。<br>
+            如沒有皮尺也可以用繩子測量紀錄，再用直尺測量長度即可。
         </div>
 
         <label>您的臀圍 (cm)</label>
@@ -490,43 +508,89 @@
 
         <label>您喜歡的穿著感受？(必選)</label>
         <div class="pref-container">
-            <div class="pref-btn" id="pref-tight" onclick="selectPref('tight')">貼身包覆<br><span style="font-size:12px">(喜歡剛好)</span></div>
-            <div class="pref-btn" id="pref-loose" onclick="selectPref('loose')">舒適寬鬆<br><span style="font-size:12px">(不愛勒痕)</span></div>
+            <div class="pref-btn" id="pref-tight" onclick="selectPref('tight')">
+                貼身包覆<br><span style="font-size:12px">(喜歡剛好)</span>
+            </div>
+            <div class="pref-btn" id="pref-loose" onclick="selectPref('loose')">
+                舒適寬鬆<br><span style="font-size:12px">(不愛勒痕)</span>
+            </div>
         </div>
 
         <button class="primary-btn" onclick="calculateSize(true)">輸入好臀圍了，計算尺寸</button>
         <button class="secondary-btn" onclick="calculateSize(false)">不知道臀圍 (僅用身高體重推算)</button>
+        <div class="note">⚠️ 提醒您：臀圍數據會比身高體重更準確喔！</div>
     </div>
 
-    <!-- 步驟 3: 結果顯示 -->
+    <!-- 結果顯示 -->
     <div id="result" class="step">
-        <h2 id="mainTitle">您的建議尺寸</h2>
+        <h2>您的建議尺寸</h2>
+        
+        <!-- 這個區塊將被截圖 -->
         <div class="result-box" id="captureArea">
+            
+            <!-- 使用者數據顯示區 -->
             <div class="user-data-grid">
-                <div class="data-item"><span class="data-label">身高</span><span class="data-value" id="dispHeight">--</span></div>
-                <div class="data-item"><span class="data-label">體重</span><span class="data-value" id="dispWeight">--</span></div>
-                <div class="data-item"><span class="data-label">臀圍</span><span class="data-value" id="dispHip">--</span></div>
+                <div class="data-item">
+                    <span class="data-label">身高</span>
+                    <span class="data-value" id="dispHeight">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">體重</span>
+                    <span class="data-value" id="dispWeight">--</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">臀圍</span>
+                    <span class="data-value" id="dispHip">--</span>
+                </div>
             </div>
+
             <div class="tag" id="prefTag"></div>
             <div>根據數據，建議尺寸為</div>
             <div class="result-size" id="recommendedSize">L</div>
             <div id="resultDetail" style="color: #666; font-size: 13px; margin-bottom: 8px;"></div>
-            <button class="screenshot-btn" id="dlBtn" onclick="generateAndShowImage()">📸 下載尺寸小卡</button>
+            
+            <!-- 截圖按鈕 -->
+            <button class="screenshot-btn" id="dlBtn" onclick="generateAndShowImage()">
+                📸 下載尺寸小卡
+            </button>
         </div>
         
         <div class="info-box" id="fittingNote" style="margin-bottom: 10px;"></div>
 
         <button class="primary-btn" onclick="showRecommendations()">繼續推薦合適產品</button>
-        <button class="line-btn" onclick="window.open(APP_CONFIG.links.lineSupport, '_blank')">💬 有疑問？加入 LINE 客服諮詢</button>
-        <button class="secondary-btn" onclick="resetApp()">清除紀錄並重新測量</button>
+        
+        <button class="line-btn" onclick="window.open('https://lin.ee/4WoBo0r', '_blank')">
+            💬 有疑問？加入 LINE 客服諮詢
+        </button>
+
+        <button class="secondary-btn" onclick="finishSession()">到此為止</button>
     </div>
 
     <!-- 導購主選單 -->
     <div id="promo-main" class="step">
-        <h2 id="mainTitle">為您推薦</h2>
+        <h2>為您推薦</h2>
         <label style="text-align:center; font-size:18px;">請問您想找哪種類型的內褲？</label>
-        <div class="menu-grid" id="menuGrid">
-            <!-- 透過 JS 動態生成主選單 -->
+        <div class="menu-grid">
+            <div class="menu-item" onclick="showSubCategory('shape')">
+                <div class="menu-icon">💃</div>
+                身形修飾
+            </div>
+            <div class="menu-item" onclick="showSubCategory('material')">
+                <div class="menu-icon">🍃</div>
+                以材質區分
+            </div>
+            <div class="menu-item" onclick="showSubCategory('cut')">
+                <div class="menu-icon">✂️</div>
+                以版型區分
+            </div>
+            <div class="menu-item" onclick="showSubCategory('habit')">
+                <div class="menu-icon">❤️</div>
+                解決困擾
+            </div>
+             <div class="menu-item" style="grid-column: span 2;" onclick="goToLink('https://www.faduobra.com/v2/official/SalePageCategory/514005?sortMode=Curator')">
+                <div class="menu-icon">🌸</div>
+                棉花糖女孩專區
+            </div>
         </div>
         <br>
         <button class="secondary-btn" onclick="backToResult()">回上一頁</button>
@@ -534,128 +598,129 @@
 
     <!-- 子分類選單 -->
     <div id="promo-sub" class="step">
-        <h2 id="mainTitle">商品分類</h2>
+        <h2>商品分類</h2>
         <label id="subTitle" style="text-align:center; font-size:18px; margin-bottom:15px;"></label>
         <div id="subButtonsContainer"></div>
         <br>
         <button class="secondary-btn" onclick="showRecommendations()">回分類選單</button>
     </div>
 
+    <!-- 結束畫面 -->
+    <div id="end-screen" class="step" style="text-align: center;">
+        <h3 style="color:#d67d7d; margin-top:20px;">感謝您的使用！</h3>
+        <p>希望您能找到最舒適的內褲。</p>
+        <div class="care-box">
+            小提醒：內褲建議使用冷水手洗，<br>
+            若要機洗請務必使用洗衣袋，才能延長壽命喔！
+        </div>
+        <br>
+        <button class="line-btn" onclick="window.open('https://lin.ee/4WoBo0r', '_blank')">
+            💬 加入 LINE 好友
+        </button>
+        <button class="outline-btn" onclick="location.reload()">重新測量</button>
+    </div>
+
+    <!-- 底部免責聲明 -->
+    <div class="footer-note">
+        此測量結果僅供參考
+    </div>
 </div>
 
-<!-- 圖片預覽 Modal (加入點擊穿透保護) -->
-<div id="imageModal" onclick="closeImageModal(event)">
-    <div class="modal-close">×</div>
-    <img id="generatedImage" src="" alt="尺寸小卡" onclick="event.stopPropagation()">
+<!-- 圖片預覽 Modal -->
+<div id="imageModal" onclick="closeImageModal()">
+    <div class="modal-close" onclick="closeImageModal()">×</div>
+    <img id="generatedImage" src="" alt="尺寸小卡">
     <div class="modal-tip">👆 請長按圖片即可儲存至手機相簿</div>
 </div>
 
 <script>
-    // ==========================================
-    // ⚙️ 系統設定區 (演算法與商品連結集中管理)
-    // ==========================================
-    const APP_CONFIG = {
-        // --- 1. 商品導購連結庫 ---
-        links: {
-            lineSupport: "https://lin.ee/4WoBo0r",
-            cottonCandy: "https://www.faduobra.com/v2/official/SalePageCategory/514005?sortMode=Curator",
-            categories: {
-                shape: [
-                    { name: "🤰 我有小腹 (收腹款)", url: "https://www.faduobra.com/SalePage/Index/10028317" },
-                    { name: "🍑 我有馬鞍肉 (修飾款)", url: "https://www.faduobra.com/SalePage/Index/11098260" }
-                ],
-                material: [
-                    { name: "🍃 涼爽透氣", url: "https://www.faduobra.com/v2/official/SalePageCategory/520439" },
-                    { name: "🛡️ 安鋅抗菌", url: "https://www.faduobra.com/v2/official/SalePageCategory/491112" },
-                    { name: "✨ 無痕系列", url: "https://www.faduobra.com/v2/official/SalePageCategory/491114" }
-                ],
-                cut: [
-                    { name: "低腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491117" },
-                    { name: "中腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491118" },
-                    { name: "高腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491119" }
-                ],
-                habit: [
-                    { name: "💨 想改善悶熱", url: "https://www.faduobra.com/v2/official/SalePageCategory/520439" },
-                    { name: "🩺 想改善婦科問題", url: "https://www.faduobra.com/v2/official/SalePageCategory/542708" },
-                    { name: "☁️ 改善摩擦異物感", url: "https://www.faduobra.com/v2/official/SalePageCategory/512377" }
-                ]
-            }
-        },
-        
-        // --- 2. 演算法參數 (尺寸交界點) ---
-        rules: {
-            hip: {
-                limitM: 81,  // 小於等於此值為M
-                edgeML: 92,  // M與L的交界點
-                edgeLXL: 98, // L與XL的交界點
-                edgeXL2XL: 105, // XL與2XL的交界點
-                edge2XL3XL: 115, // 2XL與3XL的交界點
-                max3XL: 125 // 超過此值皆為3XL
-            },
-            weight: {
-                limitM: 50,
-                edgeML: 55,
-                limitL: 60,
-                edgeLXL: 62,
-                limitXL: 72,
-                edgeXL2XL: 73, // 72以下XL, 73看喜好, 74以上2XL
-                limit2XL: 81   // 81以上皆為3XL
-            }
-        }
+    // 💡【重要】請將剛剛取得的部署網址貼在下方引號內：
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/您的SCRIPT_ID/exec";
+
+    // 產品連結資料庫
+    const productLinks = {
+        shape: [
+            { name: "🤰 我有小腹 (收腹款)", url: "https://www.faduobra.com/SalePage/Index/10028317" },
+            { name: "🍑 我有馬鞍肉 (修飾款)", url: "https://www.faduobra.com/SalePage/Index/11098260" }
+        ],
+        material: [
+            { name: "🍃 涼爽透氣", url: "https://www.faduobra.com/v2/official/SalePageCategory/520439?sortMode=Curator" },
+            { name: "🛡️ 安鋅抗菌", url: "https://www.faduobra.com/v2/official/SalePageCategory/491112" },
+            { name: "✨ 無痕系列", url: "https://www.faduobra.com/v2/official/SalePageCategory/491114" }
+        ],
+        cut: [
+            { name: "低腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491117" },
+            { name: "中腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491118" },
+            { name: "高腰版型", url: "https://www.faduobra.com/v2/official/SalePageCategory/491119?sortMode=Sales" }
+        ],
+        habit: [
+            { name: "💨 想改善悶熱問題", url: "https://www.faduobra.com/v2/official/SalePageCategory/520439" },
+            { name: "🩺 想改善婦科問題", url: "https://www.faduobra.com/v2/official/SalePageCategory/542708?sortMode=Sales" },
+            { name: "🎁 想買給媽媽穿", url: "https://www.faduobra.com/v2/official/SalePageCategory/512365?sortMode=Curator" },
+            { name: "☁️ 想改善摩擦異物感", url: "https://www.faduobra.com/v2/official/SalePageCategory/512377?sortMode=Curator" }
+        ]
     };
 
-    // ==========================================
-    // 🧠 核心邏輯區
-    // ==========================================
-    const STORAGE_KEY = 'fadou_user_data_v1';
     let userData = {
-        height: '',
-        weight: '',
-        hip: '',
-        preference: ''
+        height: 0,
+        weight: 0,
+        hip: 0,
+        preference: '',
+        finalSize: ''
     };
 
-    // --- 用戶記憶 (Local Storage) ---
-    function loadSavedData() {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            userData = JSON.parse(saved);
-            if (userData.height) document.getElementById('height').value = userData.height;
-            if (userData.weight) document.getElementById('weight').value = userData.weight;
-            if (userData.hip) document.getElementById('hip').value = userData.hip;
-            if (userData.preference) selectPref(userData.preference);
-        }
+    // 背景發送數據至 Google 試算表
+    function sendTrackingData(actionType) {
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("您的SCRIPT_ID")) return;
+
+        const payload = {
+            action: actionType,
+            height: userData.height,
+            weight: userData.weight,
+            hip: userData.hip,
+            preference: userData.preference,
+            size: userData.finalSize
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        }).catch(err => console.log("Tracking error:", err));
     }
 
-    function saveDataToLocal() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
-    }
-
-    function resetApp() {
-        localStorage.removeItem(STORAGE_KEY);
-        location.reload();
-    }
-
-    // 啟動時讀取資料
-    window.onload = function() {
-        loadSavedData();
-        buildMainMenu();
-    };
-
-    // --- UI 流程控制 ---
+    // --- 進度條控制 ---
     function updateProgressBar(step) {
         const barContainer = document.getElementById('progressBar');
         const line = document.getElementById('progressLine');
-        ['circle1', 'circle2', 'circle3'].forEach((id, idx) => {
-            document.getElementById(id).classList.toggle('active', step > idx);
-        });
-        barContainer.style.display = (step === 0) ? 'none' : 'flex';
-        line.style.width = step === 1 ? '0%' : step === 2 ? '50%' : step === 3 ? '100%' : '0%';
-    }
+        const c1 = document.getElementById('circle1');
+        const c2 = document.getElementById('circle2');
+        const c3 = document.getElementById('circle3');
 
-    function switchStep(from, to) {
-        document.getElementById(from).classList.remove('active');
-        document.getElementById(to).classList.add('active');
+        c1.classList.remove('active');
+        c2.classList.remove('active');
+        c3.classList.remove('active');
+        
+        if (step === 0) {
+            barContainer.style.display = 'none';
+        } else {
+            barContainer.style.display = 'flex';
+        }
+
+        if (step === 1) {
+            c1.classList.add('active');
+            line.style.width = '0%';
+        } else if (step === 2) {
+            c1.classList.add('active');
+            c2.classList.add('active');
+            line.style.width = '50%';
+        } else if (step === 3) {
+            c1.classList.add('active');
+            c2.classList.add('active');
+            c3.classList.add('active');
+            line.style.width = '100%';
+        }
     }
 
     function startApp() {
@@ -667,16 +732,20 @@
         if (currentStep === 1) {
             const h = document.getElementById('height').value;
             const w = document.getElementById('weight').value;
-            if (!h || !w || h <= 0 || w <= 0) {
-                alert("請輸入正確的身高與體重數值！");
+            if (!h || !w) {
+                alert("請輸入身高與體重以利計算！");
                 return;
             }
             userData.height = parseInt(h);
             userData.weight = parseInt(w);
-            saveDataToLocal(); // 儲存進度
             switchStep('step1', 'step2');
             updateProgressBar(2);
         }
+    }
+
+    function switchStep(from, to) {
+        document.getElementById(from).classList.remove('active');
+        document.getElementById(to).classList.add('active');
     }
 
     function selectPref(type) {
@@ -684,106 +753,125 @@
         document.getElementById('pref-tight').classList.remove('selected');
         document.getElementById('pref-loose').classList.remove('selected');
         document.getElementById('pref-' + type).classList.add('selected');
-        saveDataToLocal(); // 儲存偏好
     }
 
-    // --- 演算法計算 ---
     function calculateSize(hasHipData) {
         if (!userData.preference) {
-            alert("請選擇您喜歡「貼身包覆」還是「舒適寬鬆」！");
+            alert("請先選擇您喜歡「貼身包覆」還是「舒適寬鬆」的穿著感受喔！");
             return;
         }
 
-        const R = APP_CONFIG.rules; // 取出設定檔參數
         let finalSize = '';
         let message = '';
         let note = '';
         const prefText = userData.preference === 'tight' ? '喜歡合身' : '喜歡寬鬆';
-        
         document.getElementById('prefTag').innerText = `偏好：${prefText}`;
+
         document.getElementById('dispHeight').innerText = userData.height + 'cm';
         document.getElementById('dispWeight').innerText = userData.weight + 'kg';
 
         if (hasHipData) {
             const hip = parseInt(document.getElementById('hip').value);
-            if (!hip || hip <= 0) return alert("請輸入正確的臀圍數字");
-            
+            if (!hip) {
+                alert("請輸入臀圍數字");
+                return;
+            }
             userData.hip = hip;
-            saveDataToLocal();
             document.getElementById('dispHip').innerText = hip + 'cm';
 
-            // 依據設定檔進行臀圍判斷
-            if (hip <= R.hip.limitM) {
-                finalSize = 'M'; note = '依據臀圍，M 號對您來說是合適的尺寸。';
-            } else if (hip <= R.hip.edgeML) {
-                if (hip === R.hip.edgeML) {
-                    finalSize = 'L'; note = `臀圍處於 M/L 交界，因您${prefText}，建議選擇 L 號${userData.preference==='tight'?'會有較好包覆感':'較為舒適'}。`;
+            if (hip < 82) {
+                finalSize = 'M';
+                note = '依據臀圍，M 號對您來說是合適的尺寸。';
+            } else if (hip >= 82 && hip <= 92) {
+                if (hip === 92) {
+                    finalSize = 'L';
+                    note = userData.preference === 'tight' ? 
+                           `您的臀圍處於 M/L 交界，因您${prefText}，建議選擇 L 號會有較好的包覆感。` : 
+                           `您的臀圍處於 M/L 交界，建議選擇 L 號穿著較為舒適。`;
                 } else {
-                    finalSize = 'M'; note = '依據臀圍，M 號是您的最佳選擇。';
+                    finalSize = 'M';
+                    note = '依據臀圍，M 號是您的最佳選擇。';
                 }
-            } else if (hip <= R.hip.edgeLXL) {
-                if (hip === R.hip.edgeLXL) {
-                    finalSize = userData.preference === 'tight' ? 'L' : 'XL';
-                    note = `臀圍處於 L/XL 交界，因您${prefText}，建議選擇 ${finalSize} 號。`;
+            } else if (hip > 92 && hip <= 98) {
+                if (hip === 98) {
+                    if (userData.preference === 'tight') {
+                        finalSize = 'L';
+                        note = `您的臀圍處於 L/XL 交界，因您${prefText}，建議選擇 L 號。`;
+                    } else {
+                        finalSize = 'XL';
+                        note = `您的臀圍處於 L/XL 交界，因您${prefText}，建議選擇 XL 號較為自在。`;
+                    }
                 } else {
-                    finalSize = 'L'; note = '依據臀圍，L 號對您來說很合適。';
+                     finalSize = 'L';
+                     note = '依據臀圍，L 號對您來說很合適。';
                 }
-            } else if (hip <= R.hip.edgeXL2XL) {
-                if (hip === R.hip.edgeXL2XL) {
-                    finalSize = 'XXL'; note = `臀圍處於 XL/2XL 交界，建議選擇 2XL 號避免卡臀。`;
+            } else if (hip > 98 && hip <= 105) {
+                if (hip === 105) {
+                    finalSize = 'XXL';
+                    note = `您的臀圍處於 XL/XXL 交界，建議選擇 XXL 號避免卡臀。`;
                 } else {
-                    finalSize = 'XL'; note = 'XL 號的彈性範圍非常適合您的身形。';
+                    finalSize = 'XL';
+                    note = 'XL 號的彈性範圍非常適合您的身形。';
                 }
-            } else if (hip <= R.hip.edge2XL3XL) {
-                if (hip === R.hip.edge2XL3XL) {
-                    finalSize = 'XXXL'; note = `臀圍處於 2XL/3XL 交界，建議選擇 3XL 號較為舒適。`;
+            } else if (hip > 105 && hip <= 115) {
+                if (hip === 115) {
+                    finalSize = 'XXXL';
+                    note = `您的臀圍處於 XXL/3XL 交界，建議選擇 3XL 號較為舒適。`;
                 } else {
-                    finalSize = 'XXL'; note = '2XL 號能提供您足夠的包覆與舒適度。';
+                    finalSize = 'XXL';
+                    note = 'XXL 號能提供您足夠的包覆與舒適度。';
                 }
+            } else if (hip > 115 && hip <= 125) {
+                finalSize = 'XXXL';
+                note = '3XL 號的大彈性與包覆度非常適合您。';
             } else {
-                finalSize = 'XXXL'; note = '建議選擇 3XL 號，其彈性佳能提供舒適穿著感。';
+                finalSize = 'XXXL';
+                note = '建議選擇我們最大的 3XL 號，其彈性佳能提供舒適的穿著感。';
             }
-            message = `依據臀圍 (${hip}cm) 判斷`;
+            message = `依據臀圍 (${hip}cm) 與喜好判斷`;
 
         } else {
             const w = userData.weight;
             document.getElementById('dispHip').innerText = "未測量";
-            userData.hip = '';
-            saveDataToLocal();
             
-            // 依據設定檔進行體重判斷
-            if (w <= R.weight.limitM) finalSize = 'M';
-            else if (w <= R.weight.edgeML) finalSize = userData.preference === 'tight' ? 'M' : 'L';
-            else if (w <= R.weight.limitL) finalSize = 'L';
-            else if (w <= R.weight.edgeLXL) finalSize = 'XL';
-            else if (w <= R.weight.limitXL) finalSize = 'XL';
-            else if (w <= R.weight.edgeXL2XL) finalSize = userData.preference === 'tight' ? 'XL' : 'XXL';
-            else if (w <= R.weight.limit2XL) finalSize = 'XXL';
-            else finalSize = 'XXXL';
+            if (w <= 50) {
+                finalSize = 'M';
+            } else if (w > 50 && w <= 55) {
+                 finalSize = (userData.preference === 'tight') ? 'M' : 'L';
+            } else if (w > 55 && w <= 62) {
+                finalSize = (w <= 60) ? 'L' : 'XL';
+            } else if (w > 62 && w <= 72) {
+                finalSize = 'XL';
+            } else if (w > 72 && w <= 81) {
+                finalSize = (w < 73 && userData.preference === 'tight') ? 'XL' : 'XXL';
+            } else {
+                finalSize = 'XXXL';
+            }
 
             message = `依據體重推算 (建議測量臀圍更準確)`;
-            note = `系統依據體重 (${w}kg) 進行評估。若您屬於下半身較豐腴的身形，建議參考臀圍數據會更準確。`;
+            
+            if (['51', '52', '53', '54', '55', '61', '62', '72', '73'].includes(w.toString())) {
+                note = `您的體重處於尺寸交界地帶，系統已依據您「${prefText}」的設定為您挑選。`;
+            } else {
+                note = `系統依據您的體重 (${w}kg) 進行評估。若您屬於下半身較豐腴的身形，建議參考臀圍數據會更準確。`;
+            }
         }
 
+        userData.finalSize = finalSize;
+
+        // 💡 觸發背景傳送資料
+        sendTrackingData("完成尺寸計算");
+
+        switchStep('step2', 'result');
         document.getElementById('recommendedSize').innerText = finalSize;
         document.getElementById('resultDetail').innerText = message;
         document.getElementById('fittingNote').innerText = note;
-        switchStep('step2', 'result');
         updateProgressBar(3);
     }
 
-    // --- 導購選單與截圖功能 ---
-    function buildMainMenu() {
-        const grid = document.getElementById('menuGrid');
-        grid.innerHTML = `
-            <div class="menu-item" onclick="showSubCategory('shape')"><div class="menu-icon">💃</div>身形修飾</div>
-            <div class="menu-item" onclick="showSubCategory('material')"><div class="menu-icon">🍃</div>以材質區分</div>
-            <div class="menu-item" onclick="showSubCategory('cut')"><div class="menu-icon">✂️</div>以版型區分</div>
-            <div class="menu-item" onclick="showSubCategory('habit')"><div class="menu-icon">❤️</div>解決困擾</div>
-            <div class="menu-item" style="grid-column: span 2;" onclick="window.open(APP_CONFIG.links.cottonCandy, '_blank')">
-                <div class="menu-icon">🌸</div>棉花糖女孩專區
-            </div>
-        `;
+    function finishSession() {
+        switchStep('result', 'end-screen');
+        updateProgressBar(0);
     }
 
     function showRecommendations() {
@@ -801,47 +889,79 @@
     function showSubCategory(type) {
         const container = document.getElementById('subButtonsContainer');
         container.innerHTML = ''; 
-        const titles = { shape: '修飾身形困擾', material: '偏好材質', cut: '喜歡的版型', habit: '想解決的困擾' };
-        document.getElementById('subTitle').innerText = titles[type];
+        let title = '';
+        let items = [];
 
-        APP_CONFIG.links.categories[type].forEach(item => {
+        if (type === 'shape') {
+            title = '您想修飾的身形困擾是？';
+            items = productLinks.shape;
+        } else if (type === 'material') {
+            title = '您偏好的材質是？';
+            items = productLinks.material;
+        } else if (type === 'cut') {
+            title = '您喜歡的版型高度？';
+            items = productLinks.cut;
+        } else if (type === 'habit') {
+            title = '您希望能解決什麼困擾？';
+            items = productLinks.habit;
+        }
+
+        document.getElementById('subTitle').innerText = title;
+
+        items.forEach(item => {
             const btn = document.createElement('button');
             btn.className = 'outline-btn';
+            btn.style.marginBottom = '10px';
             btn.innerText = item.name;
-            btn.onclick = () => window.open(item.url, '_blank');
+            btn.onclick = function() {
+                goToLink(item.url);
+            };
             container.appendChild(btn);
         });
+
         switchStep('promo-main', 'promo-sub');
     }
 
+    function goToLink(url) {
+        window.open(url, '_blank');
+    }
+
+    // 截圖預覽與下載功能
     function generateAndShowImage() {
+        // 💡 觸發下載小卡記錄
+        sendTrackingData("下載尺寸小卡");
+
         const element = document.getElementById("captureArea");
         const btn = document.getElementById("dlBtn");
         const originalText = btn.innerHTML;
+        
         btn.innerHTML = "生成中...";
 
-        // 加入微延遲確保渲染完成
-        setTimeout(() => {
-            html2canvas(element, {
-                scale: 2,
-                backgroundColor: "#ffffff",
-                onclone: (doc) => doc.getElementById('dlBtn').style.display = 'none'
-            }).then(canvas => {
-                document.getElementById('generatedImage').src = canvas.toDataURL("image/png");
-                document.getElementById('imageModal').classList.add('show');
-                btn.innerHTML = originalText;
-            }).catch(err => {
-                alert("圖片生成失敗，請稍後再試！");
-                btn.innerHTML = originalText;
-            });
-        }, 150);
+        html2canvas(element, {
+            scale: 2,
+            backgroundColor: "#ffffff",
+            onclone: (clonedDoc) => {
+                const clonedBtn = clonedDoc.getElementById('dlBtn');
+                if (clonedBtn) {
+                    clonedBtn.style.display = 'none';
+                }
+            }
+        }).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+            const modal = document.getElementById('imageModal');
+            const resultImg = document.getElementById('generatedImage');
+            resultImg.src = imgData;
+            modal.style.display = 'flex';
+            btn.innerHTML = originalText;
+        }).catch(err => {
+            console.error(err);
+            alert("圖片生成失敗，請重新整理試試看！");
+            btn.innerHTML = originalText;
+        });
     }
 
-    function closeImageModal(e) {
-        // 只在點擊背景或關閉按鈕時觸發，點擊圖片本身不會觸發
-        if (e.target.id === 'imageModal' || e.target.classList.contains('modal-close')) {
-            document.getElementById('imageModal').classList.remove('show');
-        }
+    function closeImageModal() {
+        document.getElementById('imageModal').style.display = 'none';
     }
 </script>
 
